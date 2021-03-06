@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "535721859592",
+    "project_id": "keema-education",
+    "storage_bucket": "keema-education.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535721859592:android:3f17a0e404ac2e570b8fbd",
+        "android_client_info": {
+          "package_name": "com.Keema_app.keema_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "535721859592-91qfuslf3v5ostg4ne570l18lghnh41s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAENFSA4aZYgDjfYQCRlkqyoL9Yf4MSBfw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "535721859592-91qfuslf3v5ostg4ne570l18lghnh41s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
