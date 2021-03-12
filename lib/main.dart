@@ -1,8 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:keema_app/Services/Auth.dart';
-import 'Wrapper.dart';
-import 'package:provider/provider.dart';
+import 'package:keema_app/Authenticate/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,17 +11,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-    providers: [
-      Provider<AuthService>(create: (_) => AuthService(FirebaseAuth.instance) ,
-      ),
-      StreamProvider(create: 
-      (context) => context.read<AuthService>().authStateChanges
-      )
-    ],
-    child: MaterialApp(
-    home: Wrapper(),
-    ),
+    return  MaterialApp(
+      title: "Flutter Demo",
+    home: Loginpage(),
     );
   }
   

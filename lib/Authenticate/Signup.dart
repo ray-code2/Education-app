@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:keema_app/Authenticate/login.dart';
 import 'package:keema_app/animation/fadeAnimation.dart';
 import 'package:keema_app/Services/Auth.dart';
-import 'package:provider/provider.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -24,7 +23,7 @@ class _SignupPageState extends State<SignupPage> {
       height: 350,
       decoration: BoxDecoration(
       image: DecorationImage(
-      image: AssetImage('images/background.jpg'),
+      image: AssetImage('assets/images/background.jpg'),
       fit: BoxFit.fill
       )),
       child: Stack(
@@ -38,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
           decoration:
           BoxDecoration(
           image:DecorationImage(
-          image: AssetImage('images/light-1.png')) ),),
+          image: AssetImage('assets/images/light-1.png')) ),),
         )),
         Positioned(
           left: 140,
@@ -48,7 +47,7 @@ class _SignupPageState extends State<SignupPage> {
           decoration:
           BoxDecoration(
           image:DecorationImage(
-          image: AssetImage('images/light-2.png')) ),),
+          image: AssetImage('assets/images/light-2.png')) ),),
         )),
          Positioned(
           right: 40,
@@ -59,7 +58,7 @@ class _SignupPageState extends State<SignupPage> {
           decoration:
           BoxDecoration(
           image:DecorationImage(
-          image: AssetImage('images/clock.png')) ),),
+          image: AssetImage('assets/images/clock.png')) ),),
         )),
         Positioned(child:FadeAnimation(4, Container(
         margin: EdgeInsets.only(top:20),
@@ -119,39 +118,31 @@ class _SignupPageState extends State<SignupPage> {
             labelStyle: TextStyle(color: Color.fromRGBO(143,98,221, .9)), ),
              ),
             ),
-            SizedBox(height:10),
-            FadeAnimation(4.2, InkWell(
-              onTap: (){
-              },
-             child: Container(
-               
-                  child: Text("Forgot Password?", 
-                  style: TextStyle(
-                  fontSize: 16,
-                  color: Color.fromRGBO(143,98,221, .9)
-                  ),),
-                ),
-            ),
-            ),
+           
             SizedBox(height:10),
             FadeAnimation(4,
             FlatButton(
               
-              onPressed: (){
-         
-              context.read<AuthService>().SignUp(
-                email:emailController.text.trim(),
-                password: passwordController.text.trim(),
-              );
-               if(emailController.text == '' && passwordController.text == ''){
-               return showAlertDialog2(context);
+              onPressed: () async{
+              bool shouldNavigate = await register(emailController.text , passwordController.text);
+              if(shouldNavigate){
+                // Navigate
+                showAlertDialog(context);
               }
               else{
-                return showAlertDialog(context);
+              showAlertDialog2(context);
               }
+           
+              }
+            //    if(emailController.text == '' && passwordController.text == ''){
+            //    return showAlertDialog2(context);
+            //   }
+            //   else{
+            //     return showAlertDialog(context);
+            //   }
           
-             },
-
+            //  },
+      ,
             child: Container(
             height: 55,
                 decoration: BoxDecoration(
@@ -265,7 +256,7 @@ showAlertDialog2(BuildContext context) {
   );
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Center(child: Text("Please Input Password Or Email !" , style: TextStyle(
+    title: Center(child: Text("The account already exists for that email" , style: TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.red),)),
     content: new Container(

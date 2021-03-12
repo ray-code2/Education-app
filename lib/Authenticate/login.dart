@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:keema_app/Home_page.dart';
 import 'package:keema_app/animation/fadeAnimation.dart';
+import 'package:keema_app/forgotPassword.dart';
 import 'Signup.dart';
-import 'package:provider/provider.dart';
 import 'package:keema_app/Services/Auth.dart';
 
 class Loginpage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _LoginpageState extends State<Loginpage> {
       height: 350,
       decoration: BoxDecoration(
       image: DecorationImage(
-      image: AssetImage('images/background.jpg'),
+      image: AssetImage('assets/images/background.jpg'),
       fit: BoxFit.fill
       )),
       child: Stack(
@@ -39,7 +40,7 @@ class _LoginpageState extends State<Loginpage> {
           decoration:
           BoxDecoration(
           image:DecorationImage(
-          image: AssetImage('images/light-1.png')) ),),
+          image: AssetImage('assets/images/light-1.png')) ),),
         )),
         Positioned(
           left: 140,
@@ -49,7 +50,7 @@ class _LoginpageState extends State<Loginpage> {
           decoration:
           BoxDecoration(
           image:DecorationImage(
-          image: AssetImage('images/light-2.png')) ),),
+          image: AssetImage('assets/images/light-2.png')) ),),
         )),
          Positioned(
           right: 40,
@@ -60,7 +61,7 @@ class _LoginpageState extends State<Loginpage> {
           decoration:
           BoxDecoration(
           image:DecorationImage(
-          image: AssetImage('images/clock.png')) ),),
+          image: AssetImage('assets/images/clock.png')) ),),
         )),
         Positioned(child: FadeAnimation(5,Container(
         margin: EdgeInsets.only(top:20),
@@ -83,7 +84,7 @@ class _LoginpageState extends State<Loginpage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
            children: [
-           FadeAnimation(4,TextField(
+           FadeAnimation(4,TextFormField(
             controller: emailController,
             obscureText: false,
             decoration: InputDecoration(
@@ -102,13 +103,13 @@ class _LoginpageState extends State<Loginpage> {
            ),
            ),
             SizedBox(height:10),
-               FadeAnimation(4, TextField(
+            FadeAnimation(4, TextFormField(
             obscureText: true,
             controller: passwordController,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.lock_outline , color: Colors.blue[600], size: 20,),
                enabledBorder: UnderlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+               borderRadius: BorderRadius.circular(10),
                borderSide: BorderSide.none
                ),
               focusedBorder: OutlineInputBorder(
@@ -124,6 +125,9 @@ class _LoginpageState extends State<Loginpage> {
             SizedBox(height:10),
             FadeAnimation(4.2, InkWell(
               onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                return ForgotPage();
+                }));
               },
              child: Container(
                   child: Text("Forgot Password?", 
@@ -137,11 +141,17 @@ class _LoginpageState extends State<Loginpage> {
             SizedBox(height:10),
             FadeAnimation(4,
             FlatButton(
-              onPressed: (){
-              context.read<AuthService>().SignIn(
-                email:emailController.text.trim(),
-                password: passwordController.text.trim()
-              );             
+              onPressed: () async{
+             bool shouldNavigate = await signIn(emailController.text , passwordController.text);
+             if(shouldNavigate){
+               // Navigate
+               Navigator.push(context, MaterialPageRoute(builder: (context){
+                 return HomeScreen();
+               },
+               ),
+               );
+             }
+              
              },
 
             child: Container(
@@ -174,7 +184,6 @@ class _LoginpageState extends State<Loginpage> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return SignupPage();
                 }));
-                
                 },
                 child: Container(
                 height: 55,
@@ -207,3 +216,47 @@ class _LoginpageState extends State<Loginpage> {
            
   }
 }
+showAlertDialog2(BuildContext context) {
+  
+  // set up the button
+  Widget RetryButton = FlatButton(
+    child: Text("Retry "),
+    onPressed: () { 
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+    SignupPage()
+    ));
+    },
+  );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Center(child: Text("Please Input Password Or Email !" , style: TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Colors.red),)),
+    content: new Container(
+    
+    width: 80.0,
+    height: 40.0,
+    decoration: new BoxDecoration(
+      shape: BoxShape.rectangle,
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(32),
+    ),
+    child: Center(
+      child: Text("Failed To Login!" , 
+      style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w700),
+      ),
+    ),
+    ),
+    actions: [
+      RetryButton,
+    ],
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
